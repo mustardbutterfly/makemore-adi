@@ -42,3 +42,16 @@ for i in range(1000):
     layer.data += -5 * layer.grad
     print(loss.item())
 
+
+ix = 0
+out = ""
+while True:
+    xenc = torch.nn.functional.one_hot(torch.tensor([ix]), 27).float()
+    probs = xenc @ layer
+    counts = probs.exp()
+    p = counts/counts.sum(1, keepdim=True)
+    ix = torch.multinomial(p, 1, replacement=True).item()
+    out += mapOfIdxToChars[ix]
+    if ix == 0:
+        print(out)
+        break
