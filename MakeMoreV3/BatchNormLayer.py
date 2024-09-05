@@ -1,7 +1,7 @@
 import torch
 
 
-class BatchNorm:
+class BatchNormLayer:
     def __init__(self, dim):
         self.strech = torch.ones(dim)
         self.offset = torch.zeros(dim)
@@ -12,8 +12,8 @@ class BatchNorm:
         self.training = True
 
     def __call__(self, input: torch.Tensor):
-        mean = input.mean(dim=0, keepdim=True)
-        variance = input.var(dim=0, keepdim=True)
+        mean = input.mean(dim=(0,1), keepdim=True)
+        variance = input.var(dim=(0,1), keepdim=True)
         input = (input - mean) / torch.sqrt(variance + .0001)
         self.running_strech = .01 * self.strech + .99 * self.running_strech
         self.running_offset = .01 * self.offset + .99 * self.running_offset

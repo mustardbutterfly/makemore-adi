@@ -17,7 +17,6 @@ class LinearLayer:
 
 
 class Tanh:
-
     def __init__(self):
         self.tanh = torch.nn.Tanh()
 
